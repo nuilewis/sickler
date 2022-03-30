@@ -27,16 +27,17 @@ class FirestoreService {
         .collection("users")
         .doc(uid)
         .update(userProfiletoUpload)
-        .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+            .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
   }
 
 ////Adding User Health info
-  addUserHealthInfo({
+  addUserHealthInfo(BuildContext context, {
     String? gender,
     int? age,
     double? height,
@@ -57,16 +58,17 @@ class FirestoreService {
         .collection("users")
         .doc(uid)
         .update(userHealthtoUpload)
-        .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+            .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
   }
 
   ////Adding Water Data to Firestore
-  void addWaterData({int? amount, DateTime? time}) async {
+  void addWaterData(BuildContext context,{int? amount, DateTime? time}) async {
     Map<String, dynamic> waterDataMap = {
       "volume": amount,
       "time": time,
@@ -97,11 +99,12 @@ class FirestoreService {
           .collection("tracking")
           .doc(trackingDocID)
           .update(waterDataToUpload)
-          .then((value) {
-        print("upload profile data succesful");
-        //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
       }).onError((error, stackTrace) {
-        print("upload profile info failed");
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
       });
     } else {
 //add data
@@ -110,24 +113,26 @@ class FirestoreService {
           .doc(uid)
           .collection("tracking")
           .add(waterDataToUpload)
-          .then((value) {
-        print("upload profile data succesful");
-        //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
       }).onError((error, stackTrace) {
-        print("upload profile info failed");
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
       });
     }
   }
 
   ///Add Meds
   addMedsData(
+    BuildContext context,
       {required String medName,
       int? medDose,
       int? daysLeft,
       int? medsMg,
       bool? recurring,
       String? frequency,
-      List<DateTime>? time}) {
+      List<DateTime>? time}) async {
     Map<String, dynamic> medsDataMap = {
       "drugName": medName,
       "drugDose": medDose,
@@ -142,26 +147,52 @@ class FirestoreService {
       "meds": FieldValue.arrayUnion([medsDataMap])
     };
 
-    final String trackingDocID =
-        _firestore.collection("users").doc(uid).collection("tracking").doc().id;
-
-    ///uploading meds data
-    _firestore
+//get doc id
+    QuerySnapshot querySnapshot = await _firestore
         .collection("users")
         .doc(uid)
         .collection("tracking")
-        .doc(trackingDocID)
-        .update(medsDataToUplooad)
-        .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // update data
+      DocumentSnapshot document = querySnapshot.docs[0];
+
+      final String trackingDocID = document.id;
+
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .doc(trackingDocID)
+          .update(medsDataToUplooad)
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    } else {
+//add data
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .add(medsDataToUplooad)
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    }
   }
 
   ///Add Crisis
-  addCrisis({required int painLevel, List<String>? painAreas, DateTime? time}) {
+  addCrisis(
+      BuildContext context, {required int painLevel, List<String>? painAreas, DateTime? time}) async {
     Map<String, dynamic> crisisDataMap = {
       "painLevel": painLevel,
       "painArea": painAreas,
@@ -172,108 +203,212 @@ class FirestoreService {
       "crisis": FieldValue.arrayUnion([crisisDataMap])
     };
 
-    final String trackingDocID =
-        _firestore.collection("users").doc(uid).collection("tracking").doc().id;
-
-    _firestore
+//get doc id
+    QuerySnapshot querySnapshot = await _firestore
         .collection("users")
         .doc(uid)
         .collection("tracking")
-        .doc(trackingDocID)
-        .update(crisisDataToUplooad)
-        .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // update data
+      DocumentSnapshot document = querySnapshot.docs[0];
+
+      final String trackingDocID = document.id;
+
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .doc(trackingDocID)
+          .update(crisisDataToUplooad)
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    } else {
+//add data
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .add(crisisDataToUplooad)
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    }
   }
 
   ///Add Oxygen
-  addOxygen({required int oxygenPercentage, DateTime? time}) {
+  addOxygen(BuildContext context, {required int oxygenPercentage, DateTime? time}) async {
     Map<String, dynamic> oxygenDataMap = {
       "oxygen": oxygenPercentage,
       "time": time,
     };
 
-    Map<String, dynamic> oxygenDataToUplooad = {
+    Map<String, dynamic> oxygenDataToUpload = {
       "oxygen": FieldValue.arrayUnion([oxygenDataMap])
     };
 
-    final String trackingDocID =
-        _firestore.collection("users").doc(uid).collection("tracking").doc().id;
-
-    _firestore
+//get doc id
+    QuerySnapshot querySnapshot = await _firestore
         .collection("users")
         .doc(uid)
         .collection("tracking")
-        .doc(trackingDocID)
-        .update(oxygenDataToUplooad)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // update data
+      DocumentSnapshot document = querySnapshot.docs[0];
+
+      final String trackingDocID = document.id;
+
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .doc(trackingDocID)
+          .update(oxygenDataToUpload)
+              .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    } else {
+//add data
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .add(oxygenDataToUpload)
         .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    }
   }
 
   ///Add HB
-  addHb({required double hbValue, DateTime? time}) {
+  addHb(BuildContext context, {required double hbValue, DateTime? time}) async {
     Map<String, dynamic> hBDataMap = {
       "hb": hbValue,
       "time": time,
     };
 
-    Map<String, dynamic> hBDataToUplooad = {
+    Map<String, dynamic> hBDataToUpload = {
       "hb": FieldValue.arrayUnion([hBDataMap])
     };
 
-    final String trackingDocID =
-        _firestore.collection("users").doc(uid).collection("tracking").doc().id;
-
-    _firestore
+//get doc id
+    QuerySnapshot querySnapshot = await _firestore
         .collection("users")
         .doc(uid)
         .collection("tracking")
-        .doc(trackingDocID)
-        .update(hBDataToUplooad)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // update data
+      DocumentSnapshot document = querySnapshot.docs[0];
+
+      final String trackingDocID = document.id;
+
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .doc(trackingDocID)
+          .update(hBDataToUpload)
+          
+     .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    } else {
+//add data
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .add(hBDataToUpload)
         .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    }
   }
 
   ///Add Nutrition
 
-  addNutrition(
-      {required String foodName, DateTime? time, double? estCalories}) {
+  addNutrition(BuildContext context,
+      {required String foodName, DateTime? time, double? estCalories}) async {
     Map<String, dynamic> nutritionDataMap = {
       "foodName": foodName,
       "time": time,
       "estCalories": estCalories,
     };
 
-    Map<String, dynamic> nutritionDataToUplooad = {
+    Map<String, dynamic> nutritionDataToUpload = {
       "nutrition": FieldValue.arrayUnion([nutritionDataMap])
     };
 
-    final String trackingDocID =
-        _firestore.collection("users").doc(uid).collection("tracking").doc().id;
-
-    ///uploading crises data
-    _firestore
+//get doc id
+    QuerySnapshot querySnapshot = await _firestore
         .collection("users")
         .doc(uid)
         .collection("tracking")
-        .doc(trackingDocID)
-        .update(nutritionDataToUplooad)
-        .then((value) {
-      print("upload profile data succesful");
-      //ScaffoldMessenger.of(context).showSnackBar(SicklerSnackBar(message: "Succes", success: false);
-    }).onError((error, stackTrace) {
-      print("upload profile info failed");
-    });
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // update data
+      DocumentSnapshot document = querySnapshot.docs[0];
+
+      final String trackingDocID = document.id;
+
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .doc(trackingDocID)
+          .update(nutritionDataToUpload)
+            .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    } else {
+//add data
+      _firestore
+          .collection("users")
+          .doc(uid)
+          .collection("tracking")
+          .add(nutritionDataToUpload)
+          .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+    }
   }
 }
