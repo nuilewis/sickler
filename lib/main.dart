@@ -8,7 +8,7 @@ import 'package:sickler/screens/authscreens/create_account_screen.dart';
 import 'package:sickler/screens/authscreens/root_screen.dart';
 import 'package:sickler/screens/authscreens/sign_in_screen.dart';
 import 'package:sickler/screens/drugsscreen/add_drugs_screen.dart';
-import 'package:sickler/screens/drugsscreen/your_drugs_screen.dart';
+import 'package:sickler/screens/drugsscreen/meds_screen.dart';
 import 'package:sickler/screens/emergencyscreen/emergency_contact.dart';
 import 'package:sickler/screens/hbscreen/hb_screen.dart';
 import 'package:sickler/screens/homescreen/homescreen.dart';
@@ -55,8 +55,8 @@ class Sickler extends StatelessWidget {
               WaterScreen.id: (context) => const WaterScreen(),
               HbScreen.id: (context) => const HbScreen(),
               AddScreen.id: (context) => const AddScreen(),
-              AddDrugsScreen.id: (context) => const AddDrugsScreen(),
-              YourDrugScreen.id: (context) => const YourDrugScreen(),
+              AddMedsScreen.id: (context) => const AddMedsScreen(),
+              MedsScreen.id: (context) => const MedsScreen(),
               EmergencyContactsScreen.id: (context) =>
                   const EmergencyContactsScreen(),
             },
