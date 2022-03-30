@@ -6,15 +6,15 @@ import 'package:sickler/global_components/sickler_button.dart';
 
 import 'components/rounded_plus_minu_button.dart';
 
-class AddDrugsScreen extends StatefulWidget {
+class AddMedsScreen extends StatefulWidget {
   static const id = "add drugs screen";
-  const AddDrugsScreen({Key? key}) : super(key: key);
+  const AddMedsScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddDrugsScreen> createState() => _AddDrugsScreenState();
+  State<AddMedsScreen> createState() => _AddMedsScreenState();
 }
 
-class _AddDrugsScreenState extends State<AddDrugsScreen> {
+class _AddMedsScreenState extends State<AddMedsScreen> {
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -32,7 +32,7 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
                   top: kDefaultPadding + 8,
                   bottom: kDefaultPadding),
               child: Text(
-                "Add Drugs",
+                "Add Meds",
                 style: Theme.of(context).textTheme.headline2,
               ),
             ),
@@ -48,10 +48,8 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
               ),
             ),
             TextFormField(
-              style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 18),
+              style:
+                  Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 18),
               decoration:
                   sicklerTextFieldDecoration.copyWith(fillColor: kPurple20),
             ),
@@ -84,8 +82,7 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
                             .copyWith(fontSize: 18),
                         textAlign: TextAlign.center,
                         decoration: sicklerTextFieldDecoration.copyWith(
-                          hintText: "mg",
-                            fillColor: kPurple20),
+                            hintText: "mg", fillColor: kPurple20),
                       ),
                     ],
                   ),
@@ -142,38 +139,39 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
                 )
               ],
             ),
-             Padding(
-                        padding: const EdgeInsets.only(
-                            left: kDefaultPadding,
-                            top: kDefaultPadding,
-                            bottom: kDefaultPadding / 2),
-                        child: Text(
-                          "Date/Time",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(color: kDark60),
-                        ),
-                      ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: kDefaultPadding,
+                  top: kDefaultPadding,
+                  bottom: kDefaultPadding / 2),
+              child: Text(
+                "Date/Time",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(color: kDark60),
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [ 
+              children: [
                 ///Probably replace with date picker
                 Expanded(
                   flex: 1,
                   child: TextFormField(
                     keyboardType: TextInputType.datetime,
                     style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(fontSize: 18),
-                       textAlign: TextAlign.center,
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontSize: 18),
+                    textAlign: TextAlign.center,
                     decoration: sicklerTextFieldDecoration.copyWith(
-                        fillColor: kPurple20,
-                        hintText: "dd/mm/yyy"),
+                        fillColor: kPurple20, hintText: "dd/mm/yyy"),
                   ),
                 ),
-                  const SizedBox(width: kDefaultPadding,),
+                const SizedBox(
+                  width: kDefaultPadding,
+                ),
                 Expanded(
                   flex: 1,
                   child: Row(
@@ -187,10 +185,11 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
                             .bodyText2!
                             .copyWith(color: kDark60),
                       ),
-                      const SizedBox(width: kDefaultPadding,),
+                      const SizedBox(
+                        width: kDefaultPadding,
+                      ),
                       CupertinoSwitch(
-                  
-                        activeColor: kPurple80,
+                          activeColor: kPurple80,
                           value: true,
                           onChanged: (bool value) {
                             setState(() {
@@ -257,6 +256,7 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
                               .copyWith(color: kDark60),
                         ),
                       ),
+
                       ///Todo: replace with dropdown widget
                       TextFormField(
                         decoration: sicklerTextFieldDecoration.copyWith(
@@ -312,16 +312,12 @@ class _AddDrugsScreenState extends State<AddDrugsScreen> {
                 labelColour: Colors.white,
                 buttonBgColour: kPurple80,
                 onPressed: () {}),
-
-                const SizedBox(
+            const SizedBox(
               height: 80,
             ),
-
           ],
         ),
       ),
     );
   }
 }
-
-
