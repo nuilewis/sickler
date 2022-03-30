@@ -1,6 +1,4 @@
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:sickler/providers/user_provider.dart';
 import 'package:sickler/services/firestore/firestore_service.dart';
@@ -55,7 +53,7 @@ class WaterData extends ChangeNotifier {
    // print(totalWaterTodayList[0].amount);
 
    ///Add waterlog to Firebase
-   FirestoreService(uid: Provider.of<SUserData>(context, listen: false).user.uid!).addWaterData(amount: cupSize, time: DateTime.now());
+   FirestoreService(uid: Provider.of<SUserData>(context, listen: false).user.uid!).addWaterData(context, amount: cupSize, time: DateTime.now());
     notifyListeners();
   }
 
@@ -66,6 +64,8 @@ class WaterData extends ChangeNotifier {
     totalWaterTodayList.removeLast();
     //remove last water added from total list
     totalWaterList.removeLast();
+
+
     notifyListeners();
   }
 
