@@ -97,7 +97,7 @@ class _WaterScreenState extends State<WaterScreen> {
                       ),
                       const SizedBox(height: 20),
                       WeekAverage(
-                        amount: "${waterData.weeklyAverage} L",
+                        amount: "${waterData.averageWaterOverTimeRange} L",
                         //unit: "L",
                       )
                     ],
@@ -136,7 +136,7 @@ class _WaterScreenState extends State<WaterScreen> {
                   itemBuilder: (context, index) {
                     
                     return WaterLogCard(
-                        volume: waterData.totalWaterTodayList[index].amount
+                        volume: waterData.totalWaterTodayList[index].value
                             .toString(),
                         time: waterData.totalWaterTodayList[index].time
                             .toString());
