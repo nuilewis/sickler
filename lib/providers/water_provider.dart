@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sickler/providers/user_provider.dart';
 import 'package:sickler/services/firestore/firestore_service.dart';
@@ -14,23 +14,21 @@ class WaterData extends ChangeNotifier {
   int totalWaterDrankToday = 0;
   int waterLeftToday = 0;
   int percentageCompleted = 0;
-  double weeklyAverage = 0;
+  double averageWaterOverTimeRange = 0;
+  List<WaterLog> timeRangeList = [];
 
   ///Calc Water dranktoday
 
   calWaterDrankToday() {
-     totalWaterDrankToday = 0;
+    totalWaterDrankToday = 0;
     for (WaterLog waterAmount in totalWaterTodayList) {
-    
-      totalWaterDrankToday = (totalWaterDrankToday + waterAmount.amount!);
+      totalWaterDrankToday = (totalWaterDrankToday + waterAmount.value);
     }
 
     waterLeftToday = dailyGoal - totalWaterDrankToday;
 
     notifyListeners();
   }
-
-  
 
   ///calculate percentage Complete.
 
@@ -40,20 +38,21 @@ class WaterData extends ChangeNotifier {
     // print("percentage completed is $percentageCompleted");
     //   print("total water drank today is $totalWaterDrankToday");
 
-
     notifyListeners();
   }
 
   ///Add Water Log
   addWaterLog(BuildContext context) {
     //add water to todays list
-    totalWaterTodayList.add(WaterLog(amount: cupSize, time: DateTime.now()));
+    totalWaterTodayList.add(WaterLog(value: cupSize, time: DateTime.now()));
     //add water to lifteimelist
-    totalWaterList.add(WaterLog(amount: cupSize, time: DateTime.now()));
-   // print(totalWaterTodayList[0].amount);
+    totalWaterList.add(WaterLog(value: cupSize, time: DateTime.now()));
+    // print(totalWaterTodayList[0].amount);
 
-   ///Add waterlog to Firebase
-   FirestoreService(uid: Provider.of<SUserData>(context, listen: false).user.uid!).addWaterData(context, amount: cupSize, time: DateTime.now());
+    ///Add waterlog to Firebase
+    FirestoreService(
+            uid: Provider.of<SUserData>(context, listen: false).user.uid!)
+        .addWaterData(context, amount: cupSize, time: DateTime.now());
     notifyListeners();
   }
 
@@ -64,7 +63,6 @@ class WaterData extends ChangeNotifier {
     totalWaterTodayList.removeLast();
     //remove last water added from total list
     totalWaterList.removeLast();
-
 
     notifyListeners();
   }
@@ -93,6 +91,24 @@ class WaterData extends ChangeNotifier {
     notifyListeners();
   }
 
-  calcWeeklyAverage(){
+  void calcAverageOverTimeRange({required DateTimeRange timeRange}) {
+    double? waterSumOverTimeRange;
+//set time Range List to empty before calculating
+    timeRangeList = [];
+
+    for (WaterLog waterLog in totalWaterList) {
+      if (waterLog.time.isAfter(timeRange.start) ||
+          waterLog.time.isBefore(timeRange.end)) {
+        //add to timeRange List
+        timeRangeList.add(waterLog);
+      }
+    }
+
+    ///Calculate Average over time range
+    for (WaterLog waterLogTimeRange in timeRangeList) {
+      waterSumOverTimeRange = waterSumOverTimeRange! + waterLogTimeRange.value;
+    }
+
+    averageWaterOverTimeRange = waterSumOverTimeRange! / timeRangeList.length;
   }
 }
