@@ -1,7 +1,7 @@
 
 class WaterLog {
-  final int? amount;
-  final DateTime? time;
-  WaterLog({this.amount, this.time});
+  final int value;
+  final DateTime time;
+  WaterLog({required this.value, required this.time});
 }
 
