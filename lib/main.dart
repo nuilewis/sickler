@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sickler/Theme.dart';
+import 'package:sickler/providers/food_provider.dart';
+import 'package:sickler/providers/hb_provider.dart';
+import 'package:sickler/providers/meds_provider.dart';
+import 'package:sickler/providers/oxygen_provider.dart';
 import 'package:sickler/providers/user_provider.dart';
 import 'package:sickler/providers/water_provider.dart';
 import 'package:sickler/screens/addscreen/add_screen.dart';
 import 'package:sickler/screens/authscreens/create_account_screen.dart';
 import 'package:sickler/screens/authscreens/root_screen.dart';
 import 'package:sickler/screens/authscreens/sign_in_screen.dart';
-import 'package:sickler/screens/drugsscreen/add_drugs_screen.dart';
-import 'package:sickler/screens/drugsscreen/meds_screen.dart';
 import 'package:sickler/screens/emergencyscreen/emergency_contact.dart';
 import 'package:sickler/screens/hbscreen/hb_screen.dart';
 import 'package:sickler/screens/homescreen/homescreen.dart';
 import 'package:sickler/screens/info_gathering_screens/health_situation_screen.dart';
 import 'package:sickler/screens/info_gathering_screens/personal_info_gathering_screen.dart';
+import 'package:sickler/screens/medsscreen/add_meds_screen.dart';
+import 'package:sickler/screens/medsscreen/meds_screen.dart';
 import 'package:sickler/screens/waterscreen/water_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -36,6 +40,10 @@ class Sickler extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SUserData>(create: (context) => SUserData()),
         ChangeNotifierProvider<WaterData>(create: (context) => WaterData()),
+        ChangeNotifierProvider<HbData>(create: (context) => HbData()),
+        ChangeNotifierProvider<MedsData>(create: (context)=> MedsData()),
+        ChangeNotifierProvider<OxygenData>(create: (context) => OxygenData()),
+        ChangeNotifierProvider<FoodData>(create: (context) => FoodData()),
       ],
       child: Builder(
         builder: ((context) {
