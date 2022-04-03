@@ -38,13 +38,21 @@ class HbData extends ChangeNotifier {
   }
 
   ///Calculate the Average Over a Time Range
-  void calcAverageOverTimeRange({required DateTimeRange timeRange}) {
+  void calcAverageOverTimeRange({required DateTime endDate, required int numDaysBeforeEndDate}) {
+
+
+  DateTime startingDate = endDate.subtract( Duration(days: numDaysBeforeEndDate));
+  DateTime endingDate = endDate;
+
+  DateTimeRange timeRange = DateTimeRange(start: startingDate, end: endingDate);
+
+
     double? hbSumOverTimeRange;
 //set time Range List to empty before calculating
     timeRangeList = [];
 
     for (HbLog hbLog in totalHbList) {
-      if (hbLog.time.isAfter(timeRange.start) ||
+      if (hbLog.time.isAfter(timeRange.start) &&
           hbLog.time.isBefore(timeRange.end)) {
         //add to timeRange List
         timeRangeList.add(hbLog);

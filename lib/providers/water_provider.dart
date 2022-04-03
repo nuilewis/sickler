@@ -91,7 +91,14 @@ class WaterData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void calcAverageOverTimeRange({required DateTimeRange timeRange}) {
+  void calcAverageOverTimeRange({required DateTime endDate, required int numDaysBeforeEndDate}) {
+
+
+    
+  DateTime startingDate = endDate.subtract( Duration(days: numDaysBeforeEndDate));
+  DateTime endingDate = endDate;
+
+  DateTimeRange timeRange = DateTimeRange(start: startingDate, end: endingDate);
     double? waterSumOverTimeRange;
 //set time Range List to empty before calculating
     timeRangeList = [];
