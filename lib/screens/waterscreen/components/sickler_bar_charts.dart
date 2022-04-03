@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../constants.dart';
 
-class SicklerBarChartStats extends StatelessWidget {
+class SicklerBarChartStats extends StatefulWidget {
+
+  final Color bgColor;
+  final Color barColor;
+  final List barValues;
+
   const SicklerBarChartStats({
-    Key? key,
+    Key? key, required this.bgColor, required this.barColor, required this.barValues,
   }) : super(key: key);
 
+  @override
+  State<SicklerBarChartStats> createState() => _SicklerBarChartStatsState();
+}
+
+class _SicklerBarChartStatsState extends State<SicklerBarChartStats> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,10 +28,10 @@ class SicklerBarChartStats extends StatelessWidget {
           borderRadius: BorderRadius.circular(kDefaultPadding + 6)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: const [
-          BarChartRectangle(completed: true, percentageComplete: 100,),
-          SizedBox(width: 8,),
-           BarChartRectangle(completed: false, percentageComplete: 40),
+        children:  [
+          BarChartRectangle(completed: true, percentageComplete: 100, completedColor: widget.barColor,),
+          const SizedBox(width: 8,),
+           BarChartRectangle(completed: false, percentageComplete: 40, completedColor:  widget.barColor,),
         ],
       )
     );
@@ -31,11 +41,12 @@ class SicklerBarChartStats extends StatelessWidget {
 class BarChartRectangle extends StatelessWidget {
 
   final bool completed;
+  final Color completedColor;
   final String? volumeDrank;
   final double percentageComplete;
 
   const BarChartRectangle({
-    Key? key, required this.completed, this.volumeDrank, required this.percentageComplete
+    Key? key, required this.completed, this.volumeDrank, required this.percentageComplete, required this.completedColor
   }) : super(key: key);
 
 double calcBarHeight( double percentageComplete){
@@ -58,7 +69,7 @@ return scaleRatio * percentageComplete;
           width: 40,
           height: calcBarHeight(percentageComplete),
           decoration: BoxDecoration(
-            color: completed ? kBlue : Colors.white,
+            color: completed ? completedColor : Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
