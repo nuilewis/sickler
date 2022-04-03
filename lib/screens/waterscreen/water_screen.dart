@@ -74,9 +74,7 @@ class _WaterScreenState extends State<WaterScreen> {
                   waterData.addWaterLog(context);
                 waterData.calWaterDrankToday();
                   waterData.caclPercentageCompleted();
-
-            
-                  
+                  waterData.calcAverageOverTimeRange(endDate: DateTime.now(), numDaysBeforeEndDate: 7);                  
                   
                 },
               ),
@@ -107,7 +105,11 @@ class _WaterScreenState extends State<WaterScreen> {
               const SizedBox(height: 20),
 
               ///Statistics Card
-              const SicklerBarChartStats(),
+               SicklerBarChartStats(
+                 bgColor: kBlue20,
+                 barColor: kBlue,
+                 barValues: [waterData.timeRangeList],//so that the bar chart matches with the average it calculated
+               ),
 
               Align(
                 alignment: Alignment.centerLeft,
