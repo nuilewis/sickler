@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sickler/constants.dart';
 import 'package:sickler/global_components/sickler_button.dart';
+import 'package:sickler/services/firestore/firestore_service.dart';
 import 'package:sickler/size_config.dart';
 import '../../global_components/scaffold_body_with_top_image.dart';
 import '../homescreen/homescreen.dart';
@@ -60,6 +61,7 @@ class _HealthSituationScreenState extends State<HealthSituationScreen> {
               },
             ),
             SizedBox(height: relHeight(40, context)),
+            
           ],
         ),
       ),

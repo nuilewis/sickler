@@ -16,7 +16,7 @@ class SicklerSnackBar extends StatelessWidget{
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      elevation: 6,
+      elevation: 0,
       margin: const EdgeInsets.all(kDefaultPadding),
       padding: const EdgeInsets.all(kDefaultPadding),
       backgroundColor: success ? kGreen80 : kRed80,
