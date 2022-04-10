@@ -36,7 +36,7 @@ We at Team Sickler worked very hard to build this application. We did a study to
 
 ## How to get the app
 
-You can install the app on Google Playstore by visiting this link 
+You can install the app using this [link](https://drive.google.com/file/d/1Rk4oX24SnwuNm_zOpM_CfE1_OBoHgXUW/view?usp=sharing) 
 
 ## Usage
 
