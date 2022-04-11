@@ -18,24 +18,28 @@ class SicklerAddButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).cardColor,
-        elevation: 0,
-        enableFeedback: true,
-        minimumSize: const Size.square(72),
-        maximumSize: const Size.square(72),
-        shape: const CircleBorder(side: BorderSide.none),
-      ),
-      onPressed:
-        onPressed,
-
-        
-    
-      child: SvgPicture.asset(
-        
-        iconLink ?? "assets/svg/plus_icon.svg",
-        color: colour ?? kBlue,
+    return Material(
+      color:  Colors.transparent,
+      elevation: 0,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).cardColor,
+          elevation: 0,
+          enableFeedback: true,
+          minimumSize: const Size.square(72),
+          maximumSize: const Size.square(72),
+          shape: const CircleBorder(side: BorderSide.none),
+        ),
+        onPressed:
+          onPressed,
+      
+          
+      
+        child: SvgPicture.asset(
+          
+          iconLink ?? "assets/svg/plus_icon.svg",
+          color: colour ?? kBlue,
+        ),
       ),
     );
   }
