@@ -17,15 +17,15 @@ class WaterData extends ChangeNotifier {
   double averageWaterOverTimeRange = 0;
   List<WaterLog> timeRangeList = [];
 
-
-///Initialize water
-void initWater(){
-  if(totalWaterList.isEmpty){
- totalWaterList = [WaterLog(value: 0, time: DateTime.now())];
- totalWaterTodayList = [WaterLog(value: 0, time: DateTime.now())];
+  ///Initialize water
+  void initWater() {
+    if (totalWaterList.isEmpty) {
+      totalWaterList = [WaterLog(value: 0, time: DateTime.now())];
+      totalWaterTodayList = [WaterLog(value: 0, time: DateTime.now())];
+    }
+    //notifyListeners();
   }
-  //notifyListeners();
-}
+
   ///Calc Water dranktoday
 
   calWaterDrankToday() {
@@ -100,14 +100,14 @@ void initWater(){
     notifyListeners();
   }
 
-  void calcAverageOverTimeRange({required DateTime endDate, required int numDaysBeforeEndDate}) {
+  void calcAverageOverTimeRange(
+      {required DateTime endDate, required int numDaysBeforeEndDate}) {
+    DateTime startingDate =
+        endDate.subtract(Duration(days: numDaysBeforeEndDate));
+    DateTime endingDate = endDate;
 
-
-    
-  DateTime startingDate = endDate.subtract( Duration(days: numDaysBeforeEndDate));
-  DateTime endingDate = endDate;
-
-  DateTimeRange timeRange = DateTimeRange(start: startingDate, end: endingDate);
+    DateTimeRange timeRange =
+        DateTimeRange(start: startingDate, end: endingDate);
     double waterSumOverTimeRange = 0;
 //set time Range List to empty before calculating
     timeRangeList = [];
@@ -120,10 +120,22 @@ void initWater(){
       }
     }
 
+    ///increment the index by 1, beacuse of the initialization method that adds an empty log so the list won't be null
+    ///I should probably fix that, so that we won;t have to basically go through this hack;
+    // for (int i=1; i< totalWaterList.length; i++) {
+    //   if (totalWaterList[i].time.isAfter(timeRange.start) ||
+    //       totalWaterList[i].time.isBefore(timeRange.end)) {
+    //     //add to timeRange List
+    //     timeRangeList.add(totalWaterList[i]);
+    //   }
+    // }
+
     ///Calculate Average over time range
     for (WaterLog waterLogTimeRange in timeRangeList) {
       waterSumOverTimeRange = waterSumOverTimeRange + waterLogTimeRange.value;
     }
+
+  
 
     averageWaterOverTimeRange = waterSumOverTimeRange / timeRangeList.length;
   }
