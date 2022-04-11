@@ -8,6 +8,17 @@ class HbData extends ChangeNotifier {
   double? averageHBOverTimeRange = 0;
   double? sumOfHB = 0;
 
+void initHb(){
+  if(totalHbList.isEmpty){
+      totalHbList = [HbLog(value: 0, time: DateTime.now())];
+timeRangeList = [HbLog(value: 0, time: DateTime.now())];
+  }
+
+  //notifyListeners();
+}
+
+
+
   void addHB(double hbValue) {
     totalHbList.add(HbLog(value: hbValue, time: DateTime.now()));
 
@@ -47,7 +58,7 @@ class HbData extends ChangeNotifier {
   DateTimeRange timeRange = DateTimeRange(start: startingDate, end: endingDate);
 
 
-    double? hbSumOverTimeRange;
+    double hbSumOverTimeRange = 0;
 //set time Range List to empty before calculating
     timeRangeList = [];
 
@@ -61,10 +72,10 @@ class HbData extends ChangeNotifier {
 
     ///Calculate Average over time range
     for (HbLog hbLogTimeRange in timeRangeList) {
-      hbSumOverTimeRange = hbSumOverTimeRange! + hbLogTimeRange.value;
+      hbSumOverTimeRange = hbSumOverTimeRange+ hbLogTimeRange.value;
     }
 
-    averageHBOverTimeRange = hbSumOverTimeRange! / timeRangeList.length;
+    averageHBOverTimeRange = hbSumOverTimeRange/ timeRangeList.length;
 
     notifyListeners();
   }

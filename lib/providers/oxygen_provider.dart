@@ -8,7 +8,15 @@ class OxygenData extends ChangeNotifier {
   double? averageOxygenOverTimeRange = 0;
   double? sumOfOxygen = 0;
 
-  void addOygen(double oxygenValue) {
+  void initOxygen(){
+    if(totalOxygenList.isEmpty){
+         totalOxygenList = [OxygenLog(value: 0, time: DateTime.now())];
+          timeRangeList = [OxygenLog(value: 0, time: DateTime.now())];
+    }
+   /// notifyListeners();
+  }
+
+  void addOxygen(double oxygenValue) {
     totalOxygenList.add(OxygenLog(value: oxygenValue, time: DateTime.now()));
 
     notifyListeners();

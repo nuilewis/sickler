@@ -7,6 +7,12 @@ class FoodData extends ChangeNotifier{
 
 List<FoodLog> foodLoglist = [];
 
+void initFoof(){
+  
+foodLoglist = [FoodLog(foodName: "foodName")];
+//notifyListeners();
+}
+
 
 void addFoodLog(FoodLog food){
   foodLoglist.add(food);

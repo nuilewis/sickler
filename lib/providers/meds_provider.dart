@@ -5,6 +5,14 @@ class MedsData extends ChangeNotifier {
 
 List<MedsLog> medsList = [];
 
+
+void initMeds(){
+if(medsList.isEmpty){
+   medsList = [MedsLog(name: "name", dose: 200, daysLeft: 12, time: [DateTime.now()])];
+}
+//notifyListeners();
+}
+
 void addMeds({required MedsLog medicine}){
 
   medsList.add(medicine);

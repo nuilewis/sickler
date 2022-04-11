@@ -17,6 +17,15 @@ class WaterData extends ChangeNotifier {
   double averageWaterOverTimeRange = 0;
   List<WaterLog> timeRangeList = [];
 
+
+///Initialize water
+void initWater(){
+  if(totalWaterList.isEmpty){
+ totalWaterList = [WaterLog(value: 0, time: DateTime.now())];
+ totalWaterTodayList = [WaterLog(value: 0, time: DateTime.now())];
+  }
+  //notifyListeners();
+}
   ///Calc Water dranktoday
 
   calWaterDrankToday() {
@@ -99,7 +108,7 @@ class WaterData extends ChangeNotifier {
   DateTime endingDate = endDate;
 
   DateTimeRange timeRange = DateTimeRange(start: startingDate, end: endingDate);
-    double? waterSumOverTimeRange;
+    double waterSumOverTimeRange = 0;
 //set time Range List to empty before calculating
     timeRangeList = [];
 
@@ -113,9 +122,9 @@ class WaterData extends ChangeNotifier {
 
     ///Calculate Average over time range
     for (WaterLog waterLogTimeRange in timeRangeList) {
-      waterSumOverTimeRange = waterSumOverTimeRange! + waterLogTimeRange.value;
+      waterSumOverTimeRange = waterSumOverTimeRange + waterLogTimeRange.value;
     }
 
-    averageWaterOverTimeRange = waterSumOverTimeRange! / timeRangeList.length;
+    averageWaterOverTimeRange = waterSumOverTimeRange / timeRangeList.length;
   }
 }
