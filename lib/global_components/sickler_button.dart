@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constants.dart';
-import '../size_config.dart';
+
 
 class SicklerButton extends StatelessWidget {
   final String buttonLabel;
+  final bool isDoingWork;
   final Color colour;
   final bool isPrimaryButton;
   final VoidCallback onPressed;
@@ -14,7 +15,8 @@ class SicklerButton extends StatelessWidget {
       required this.buttonLabel,
       required this.colour,
       required this.onPressed,
-      required this.isPrimaryButton})
+      required this.isPrimaryButton,
+      required this.isDoingWork})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class SicklerButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: relHeight(72, context),
+        height: 72,
         width: double.infinity,
         decoration: BoxDecoration(
             boxShadow: isPrimaryButton
@@ -39,14 +41,21 @@ class SicklerButton extends StatelessWidget {
                 ? null
                 : Border.all(width: 1.5, color: Colors.white)),
         child: Center(
-          child: Text(
-            buttonLabel,
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                fontSize: 18,
-                fontWeight:
-                    isPrimaryButton ? FontWeight.bold : FontWeight.normal,
-                color: isPrimaryButton ? colour : Colors.white),
-          ),
+          child: isDoingWork
+              ? const Padding(
+              padding:  EdgeInsets.all(kDefaultPadding / 2),
+              child: CircularProgressIndicator.adaptive(
+                valueColor: AlwaysStoppedAnimation(kPurple80),
+              ),
+                )
+              : Text(
+                  buttonLabel,
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      fontSize: 18,
+                      fontWeight:
+                          isPrimaryButton ? FontWeight.bold : FontWeight.normal,
+                      color: isPrimaryButton ? colour : Colors.white),
+                ),
         ),
       ),
     );
@@ -54,6 +63,7 @@ class SicklerButton extends StatelessWidget {
 }
 
 class SicklerColoredButton extends StatelessWidget {
+  final bool? isDoingWork;
   final bool? hasShadow;
   final String buttonLabel;
   final Color? labelColour;
@@ -65,6 +75,7 @@ class SicklerColoredButton extends StatelessWidget {
     this.labelColour,
     required this.buttonBgColour,
     required this.onPressed,
+    this.isDoingWork = false,
     this.hasShadow = false,
   }) : super(key: key);
 
@@ -73,7 +84,7 @@ class SicklerColoredButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: relHeight(72, context),
+        height: 72,
         width: double.infinity,
         decoration: BoxDecoration(
           boxShadow: hasShadow!
@@ -88,7 +99,14 @@ class SicklerColoredButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(kDefaultPadding + 4),
         ),
         child: Center(
-          child: Text(
+          child: isDoingWork!
+              ? const Padding(
+              padding:  EdgeInsets.all(kDefaultPadding / 2),
+              child: CircularProgressIndicator.adaptive(
+                valueColor: AlwaysStoppedAnimation(Colors.white),
+              ),
+                )
+              :  Text(
             buttonLabel,
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
@@ -120,7 +138,7 @@ class SicklerTransparentButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: relHeight(72, context),
+        height: 72,
         width: double.infinity,
         decoration: BoxDecoration(
           color: buttonBgColour,
