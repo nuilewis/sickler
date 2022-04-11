@@ -54,6 +54,7 @@ class _SicklerHomeScreenState extends State<SicklerHomeScreen> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(

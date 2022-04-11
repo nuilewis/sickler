@@ -18,6 +18,8 @@ import 'package:sickler/screens/info_gathering_screens/health_situation_screen.d
 import 'package:sickler/screens/info_gathering_screens/personal_info_gathering_screen.dart';
 import 'package:sickler/screens/medsscreen/add_meds_screen.dart';
 import 'package:sickler/screens/medsscreen/meds_screen.dart';
+import 'package:sickler/screens/oxygenscreen/add_oxygen_screen.dart';
+import 'package:sickler/screens/oxygenscreen/oxygen_screen.dart';
 import 'package:sickler/screens/waterscreen/water_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -64,7 +66,10 @@ class Sickler extends StatelessWidget {
               HbScreen.id: (context) => const HbScreen(),
               AddScreen.id: (context) => const AddScreen(),
               AddMedsScreen.id: (context) => const AddMedsScreen(),
+            
               MedsScreen.id: (context) => const MedsScreen(),
+              OxygenScreen.id: (context) => const OxygenScreen(),
+    
               EmergencyContactsScreen.id: (context) =>
                   const EmergencyContactsScreen(),
             },
