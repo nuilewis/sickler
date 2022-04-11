@@ -24,8 +24,6 @@ class _WaterScreenState extends State<WaterScreen> {
   Widget build(BuildContext context) {
     return Consumer<WaterData>(builder: (context, waterData, child) {
       return SicklerScaffoldBodyWithTopImage(
-      
-        
         showPageTitle: true,
         pageTitle: "Water",
         topBgColour: kBlue20,
@@ -55,14 +53,16 @@ class _WaterScreenState extends State<WaterScreen> {
 
               ///Water Percentage
               SicklerCircularPercentIndicator(
-                progress:( waterData.percentageCompleted/100) > 1 ? 1: waterData.percentageCompleted/100,
+                progress: (waterData.percentageCompleted / 100) > 1
+                    ? 1
+                    : waterData.percentageCompleted / 100,
                 animate: true,
                 value: waterData.percentageCompleted.toString(),
                 unit: "%",
               ),
               const SizedBox(height: 40),
               VolumeDrunk(
-                newVal: waterData.totalWaterDrankToday,
+                  newVal: waterData.totalWaterDrankToday,
                   volumeDrunk: "${waterData.totalWaterDrankToday} ml",
                   volumeLeft: "${waterData.waterLeftToday}"),
               const SizedBox(height: 40),
@@ -70,15 +70,15 @@ class _WaterScreenState extends State<WaterScreen> {
               ///Add Button
               SicklerAddButton(
                 onPressed: () {
-                   // print("adding water");
+                  // print("adding water");
                   waterData.addWaterLog(context);
-                waterData.calWaterDrankToday();
+                  waterData.calWaterDrankToday();
                   waterData.caclPercentageCompleted();
-                  waterData.calcAverageOverTimeRange(endDate: DateTime.now(), numDaysBeforeEndDate: 7);                  
-                  
+                  waterData.calcAverageOverTimeRange(
+                      endDate: DateTime.now(), numDaysBeforeEndDate: 7);
                 },
               ),
-      
+
               const SizedBox(height: 60),
 
               ///Water Stats
@@ -95,7 +95,7 @@ class _WaterScreenState extends State<WaterScreen> {
                       ),
                       const SizedBox(height: 20),
                       WeekAverage(
-                        amount: "${waterData.averageWaterOverTimeRange} L",
+                        amount: "${(waterData.averageWaterOverTimeRange/1000).toStringAsFixed(3)} L",
                         //unit: "L",
                       )
                     ],
@@ -105,11 +105,13 @@ class _WaterScreenState extends State<WaterScreen> {
               const SizedBox(height: 20),
 
               ///Statistics Card
-               SicklerBarChartStats(
-                 bgColor: kBlue20,
-                 barColor: kBlue,
-                 barValues: [waterData.timeRangeList],//so that the bar chart matches with the average it calculated
-               ),
+              SicklerBarChartStats(
+                bgColor: kBlue20,
+                barColor: kBlue,
+                barValues: [
+                  waterData.timeRangeList
+                ], //so that the bar chart matches with the average it calculated
+              ),
 
               Align(
                 alignment: Alignment.centerLeft,
@@ -125,31 +127,32 @@ class _WaterScreenState extends State<WaterScreen> {
                 ),
               ),
 
-           ///   /Water log cards
+              ///   /Water log cards
               GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: waterData.totalWaterTodayList.length,
+                padding: EdgeInsets.zero,
                 
+                  physics: const NeverScrollableScrollPhysics(),
+                 shrinkWrap: true,
+                  itemCount: waterData.totalWaterTodayList.length-1,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //crossAxisSpacing: kDefaultPadding2x,
+                    crossAxisSpacing: kDefaultPadding,
+                    mainAxisSpacing: kDefaultPadding,
+                    mainAxisExtent: 75,
                     crossAxisCount: 2,
-                    ),
+                  ),
                   itemBuilder: (context, index) {
-                    
+                    ///increment the index by 1, beacuse of the initialization method that adds an empty log so the list won't be null
+                    ///I should probably fix that, so that we won;t have to basically go through this hack;
+                    index++;
                     return WaterLogCard(
-                        volume: waterData.totalWaterTodayList[index].value
-                            .toString(),
-                        time: waterData.totalWaterTodayList[index].time
-                            .toString());
+                      volume:
+                          waterData.totalWaterTodayList[index].value.toString(),
+                      time: TimeOfDay.fromDateTime(
+                              waterData.totalWaterTodayList[index].time)
+                          .format(context),
+                    );
                   }),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: WaterLogCard(
-                  time: "2:38 pm",
-                  volume: "500",
-                ),
-              ),
+    
               const SizedBox(
                 height: 60,
               )
