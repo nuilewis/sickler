@@ -49,7 +49,7 @@ class SicklerCircularPercentIndicator extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headline1!
-                    .copyWith(fontSize: 48),
+                    .copyWith(fontSize: 44),
               ),
               TextSpan(
                   text: unit, style: Theme.of(context).textTheme.bodyText2),
