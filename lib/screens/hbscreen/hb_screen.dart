@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:sickler/constants.dart';
+import 'package:sickler/global_components/custom_route.dart';
 import 'package:sickler/global_components/scaffold_body_with_top_image.dart';
 import 'package:sickler/providers/hb_provider.dart';
+import 'package:sickler/screens/hbscreen/addHb_screen.dart';
 import '../../global_components/circular_add_button.dart';
 import '../../global_components/sickler_circular_percent_indicator.dart';
 import '../waterscreen/components/sickler_bar_charts.dart';
@@ -32,7 +34,7 @@ class _HbScreenState extends State<HbScreen> {
     builder: (context, hbData, child){
 
 
-      hbData.calcAverageOverTimeRange(endDate: DateTime.now(), numDaysBeforeEndDate: 30);
+     // hbData.calcAverageOverTimeRange(endDate: DateTime.now(), numDaysBeforeEndDate: 30);
         return SicklerScaffoldBodyWithTopImage(
         showPageTitle: true,
         pageTitle: "Haemoglobin",
@@ -55,7 +57,7 @@ class _HbScreenState extends State<HbScreen> {
                 ),
               ),
               Text(
-                "Your HB increased sing your last measurement, keep doing what you are doing 😁😊",
+                "Your HB increased since your last measurement, keep doing what you are doing 😁😊",
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               const SizedBox(height: 40),
@@ -70,7 +72,7 @@ class _HbScreenState extends State<HbScreen> {
               ),
               const SizedBox(height: 40),
               Text(
-               " ${hbData.totalHbList.last.time.day.toString().padLeft(2,"0")}-${hbData.totalHbList.last.time.month.toString().padLeft(2, "0")}-${hbData.totalHbList.last.time.year}  ${TimeOfDay.fromDateTime(hbData.totalHbList.last.time).format(context)}",
+               "  ${hbData.totalHbList.last.time.day.toString().padLeft(2,"0")}-${hbData.totalHbList.last.time.month.toString().padLeft(2, "0")}-${hbData.totalHbList.last.time.year}  ${TimeOfDay.fromDateTime(hbData.totalHbList.last.time).format(context)}",
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
@@ -79,9 +81,15 @@ class _HbScreenState extends State<HbScreen> {
               const SizedBox(height: 40),
     
               ///Add Button
-              SicklerAddButton(
-                colour: kFuchsia,
-                onPressed: () {},
+              Hero(
+                tag: AddHbPopup.heroId,
+              
+                child: SicklerAddButton(
+                  colour: kFuchsia,
+                  onPressed: () {
+                    Navigator.push(context, HeroDialogRoute(builder: (context)=>  AddHbPopup()));
+                  },
+                ),
               ),
               const SizedBox(height: 60),
     
