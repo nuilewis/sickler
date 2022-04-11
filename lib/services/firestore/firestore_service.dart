@@ -8,12 +8,12 @@ class FirestoreService {
   FirestoreService({required this.uid});
   String uid;
 
-////Adding UserProfile Info to Firestore
+////-------------------Adding UserProfile Info to Firestore---------------------
   addUserProfileInfo(
       {required String firstName,
       String? lastName,
       String? profileImg,
-      required BuildContext context}) {
+      required BuildContext context}) async {
     Map<String, dynamic> userProfile = {
       "firstName": firstName,
       "lastName": lastName,
@@ -23,7 +23,20 @@ class FirestoreService {
 
     Map<String, Map> userProfiletoUpload = {"profile": userProfile};
 
-    _firestore
+    //get profile info
+
+      DocumentSnapshot docSnapshot = await _firestore
+        .collection("users")
+        .doc(uid)
+      
+        .get();
+
+        
+
+
+if(docSnapshot["profile"] !=null){
+  //update data if it exist
+   _firestore
         .collection("users")
         .doc(uid)
         .update(userProfiletoUpload)
@@ -34,16 +47,31 @@ class FirestoreService {
        // print("upload profile info failed");
         sicklerSnackBar(context, message: "Failed", success: false);
       });
+} else{
+  //add data if it does not exist
+     _firestore
+        .collection("users")
+        .doc(uid)
+        .set(userProfiletoUpload)
+            .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+}
+ 
   }
 
-////Adding User Health info
+////--------------------------Adding User Health info-----------------------------
   addUserHealthInfo(BuildContext context, {
     String? gender,
     int? age,
     double? height,
     double? weight,
     String? genotype,
-  }) {
+  }) async {
     Map<String, dynamic> userHealth = {
       "gender": gender,
       "age": age,
@@ -54,6 +82,16 @@ class FirestoreService {
 
     Map<String, Map> userHealthtoUpload = {"health": userHealth};
 
+//Get document and check if data exist already and either add new data or update pre-existing data
+        DocumentSnapshot docSnapshot = await _firestore
+        .collection("users")
+        .doc(uid)
+        .get();
+
+        
+
+        if(docSnapshot["health"] !=null){
+//update data is heath data exist already
     _firestore
         .collection("users")
         .doc(uid)
@@ -65,9 +103,25 @@ class FirestoreService {
        // print("upload profile info failed");
         sicklerSnackBar(context, message: "Failed", success: false);
       });
+        } else{
+          //add data if no data exist
+    _firestore
+        .collection("users")
+        .doc(uid)
+        .set(userHealthtoUpload)
+            .then((value) {
+        //print("upload profile data succesful");
+        sicklerSnackBar(context, message: "Success", success: true);
+      }).onError((error, stackTrace) {
+       // print("upload profile info failed");
+        sicklerSnackBar(context, message: "Failed", success: false);
+      });
+        }
+
+
   }
 
-  ////Adding Water Data to Firestore
+  ////---------------------Adding Water Data to Firestore--------------------
   void addWaterData(BuildContext context,{int? amount, DateTime? time}) async {
     Map<String, dynamic> waterDataMap = {
       "volume": amount,
@@ -123,7 +177,7 @@ class FirestoreService {
     }
   }
 
-  ///Add Meds
+  ///----------------Add Meds---------------------
   addMedsData(
     BuildContext context,
       {required String medName,
@@ -190,7 +244,7 @@ class FirestoreService {
     }
   }
 
-  ///Add Crisis
+  ///--------------------------Add Crisis----------------------------
   addCrisis(
       BuildContext context, {required int painLevel, List<String>? painAreas, DateTime? time}) async {
     Map<String, dynamic> crisisDataMap = {
@@ -246,7 +300,7 @@ class FirestoreService {
     }
   }
 
-  ///Add Oxygen
+  ///-------------------------Add Oxygen----------------------------
   addOxygen(BuildContext context, {required int oxygenPercentage, DateTime? time}) async {
     Map<String, dynamic> oxygenDataMap = {
       "oxygen": oxygenPercentage,
@@ -300,7 +354,7 @@ class FirestoreService {
     }
   }
 
-  ///Add HB
+  ///----------------------Add HB------------------------------
   addHb(BuildContext context, {required double hbValue, DateTime? time}) async {
     Map<String, dynamic> hBDataMap = {
       "hb": hbValue,
@@ -355,7 +409,7 @@ class FirestoreService {
     }
   }
 
-  ///Add Nutrition
+  ///-----------------------Add Nutrition-------------------------
 
   addNutrition(BuildContext context,
       {required String foodName, DateTime? time, double? estCalories}) async {
