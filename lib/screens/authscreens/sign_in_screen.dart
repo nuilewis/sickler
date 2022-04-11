@@ -23,6 +23,7 @@ class SicklerSignInScreen extends StatefulWidget {
 class _SicklerSignInScreenState extends State<SicklerSignInScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+    List<bool> isDoingWork = [false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +91,13 @@ class _SicklerSignInScreenState extends State<SicklerSignInScreen> {
                       controller: password, hintText: "Password"),
                   SizedBox(height: relHeight(90, context)),
                   SicklerButton(
+                    isDoingWork: isDoingWork[0],
                       colour: kPurple80,
                       buttonLabel: "Sign In",
                       onPressed: () {
+                        setState(() {
+                          isDoingWork[0]=true;
+                        });
                         HapticFeedback.lightImpact();
                         Feedback.forTap(context);
                         FirebaseAuthService()
@@ -103,9 +108,13 @@ class _SicklerSignInScreenState extends State<SicklerSignInScreen> {
 
                   ///Todo: Change to google logo
                   SicklerButton(
+                    isDoingWork: isDoingWork[1],
                       colour: kPurple80,
                       buttonLabel: "Sign In with Google",
                       onPressed: () async {
+                             setState(() {
+                          isDoingWork[1]=true;
+                        });
                         HapticFeedback.lightImpact();
                         Feedback.forTap(context);
                         FirebaseAuthService().signInWithGoogle(context).then((value) async {
@@ -119,7 +128,6 @@ class _SicklerSignInScreenState extends State<SicklerSignInScreen> {
                           
                           );
 
-                        ///Todo: probably makr somthing to show that the app is registering
                       },
                       isPrimaryButton: true),
                   SizedBox(
@@ -127,6 +135,7 @@ class _SicklerSignInScreenState extends State<SicklerSignInScreen> {
                   ),
 
                   SicklerButton(
+                    isDoingWork:  false,
                       colour: kPurple80,
                       buttonLabel: "Create Account",
                       onPressed: () {
