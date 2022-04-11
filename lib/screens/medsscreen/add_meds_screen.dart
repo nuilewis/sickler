@@ -7,7 +7,7 @@ import 'package:sickler/global_components/sickler_button.dart';
 import 'components/rounded_plus_minu_button.dart';
 
 class AddMedsScreen extends StatefulWidget {
-  static const id = "add drugs screen";
+  static const id = "add meds screen";
   const AddMedsScreen({Key? key}) : super(key: key);
 
   @override

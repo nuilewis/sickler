@@ -91,11 +91,12 @@ class _PersonalInfoGatheringScreenState
                   onPressed: () async {
                     HapticFeedback.lightImpact();
                     Feedback.forTap(context);
-                    FirestoreService(uid: userData.user.uid!)
+                   await FirestoreService(uid: userData.user.uid!)
                         .addUserProfileInfo(
                             firstName: userData.user.firstName!,
                             lastName: userData.user.lastName,
                             context: context);
+                            
                     await FirestoreService(uid: userData.user.uid!).addUserHealthInfo(
                       context,
                       height: double.tryParse(height.text),

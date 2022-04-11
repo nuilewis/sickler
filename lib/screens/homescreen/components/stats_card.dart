@@ -35,6 +35,7 @@ class StatsCard extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: (screenSize.width - (3 * kDefaultPadding)) * .5,
+        //width: screenSize.width/2,
         height: relHeight(110, context),
         // height: 100,
         padding: const EdgeInsets.symmetric(
