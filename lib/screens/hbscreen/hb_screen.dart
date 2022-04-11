@@ -65,12 +65,12 @@ class _HbScreenState extends State<HbScreen> {
                 progressColour: kGreen,
                 progress: 1,
                 animate: true,
-                value: hbData.totalHbList.last.toString(),
+                value: hbData.totalHbList.last.value.toString() ,
                 unit: "g/dl",
               ),
               const SizedBox(height: 40),
               Text(
-                hbData.totalHbList.last.time.toString(),
+               " ${hbData.totalHbList.last.time.day.toString().padLeft(2,"0")}-${hbData.totalHbList.last.time.month.toString().padLeft(2, "0")}-${hbData.totalHbList.last.time.year}  ${TimeOfDay.fromDateTime(hbData.totalHbList.last.time).format(context)}",
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!

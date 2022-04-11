@@ -25,7 +25,7 @@ class StatsCard extends StatelessWidget {
     required this.colour,
     required this.bgColour,
     this.onPressed,
-    this.statsTimestamp,
+     this.statsTimestamp,
   }) : super(key: key);
 
   @override
@@ -74,7 +74,7 @@ class StatsCard extends StatelessWidget {
                       children: [
                         TextSpan(
                             text: statsValue.toString(),
-                            style: Theme.of(context).textTheme.headline1),
+                            style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24)),
                         TextSpan(
                             text: statsUnit,
                             style: Theme.of(context).textTheme.bodyText2),
@@ -88,7 +88,7 @@ class StatsCard extends StatelessWidget {
               right: 0,
               bottom: 7,
               child: Text(
-                statsTimestamp ?? "",
+                statsTimestamp ?? "N/A",
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2!
