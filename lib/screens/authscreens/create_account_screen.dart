@@ -6,7 +6,7 @@ import 'package:sickler/screens/authscreens/components/text_form_field.dart';
 import 'package:sickler/screens/authscreens/sign_in_screen.dart';
 import 'package:sickler/services/firebase_auth/firebase_auth_service.dart';
 import '../../constants.dart';
-import '../../size_config.dart';
+
 
 class CreateAccountScreen extends StatefulWidget {
   static const String id = "create account screen";
@@ -21,6 +21,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
+  List<bool> isDoingWork = [false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +64,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: relHeight(50, context),
+                  const SizedBox(
+                    height: 50, 
                   ),
                   IconButton(
                     alignment: Alignment.centerLeft,
@@ -79,8 +80,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       Navigator.pop(context);
                     },
                   ),
-                  SizedBox(
-                    height: relHeight(40, context),
+                  const SizedBox(
+                    height: 40,
                   ),
                   Text(
                     "Welcome,",
@@ -96,8 +97,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         .headline2!
                         .copyWith(color: Colors.white),
                   ),
-                  SizedBox(
-                    height: relHeight(40, context),
+                  const SizedBox(
+                    height: 40,
                   ),
                   TextFormField(
                     controller: firstName,
@@ -110,8 +111,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       fillColor: Colors.white.withOpacity(.2),
                     ),
                   ),
-                  SizedBox(
-                    height: relHeight(kDefaultPadding, context),
+                  const SizedBox(
+                    height: kDefaultPadding,
                   ),
                   TextFormField(
                     controller: lastName,
@@ -124,7 +125,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       fillColor: Colors.white.withOpacity(.2),
                     ),
                   ),
-                  SizedBox(height: relHeight(kDefaultPadding, context)),
+                  const SizedBox(height: kDefaultPadding, ),
                   TextFormField(
                     controller: email,
                     style: Theme.of(context)
@@ -136,34 +137,45 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       fillColor: Colors.white.withOpacity(.2),
                     ),
                   ),
-                  SizedBox(height: relHeight(kDefaultPadding, context)),
+                  const SizedBox(height: kDefaultPadding, ),
                   SicklerPasswordField(
                       controller: password, hintText: "Password"),
-                  SizedBox(
-                    height: relHeight(60, context),
+                  const SizedBox(
+                    height: 60,
                   ),
                   SicklerButton(
+                    isDoingWork:  isDoingWork[0],
                       colour: kPurple80,
                       buttonLabel: "Create Account",
                       onPressed: () async {
+                          setState(() {
+                              isDoingWork[0] = true;
+                            });
                         HapticFeedback.lightImpact();
                         Feedback.forTap(context);
                         FirebaseAuthService()
-                            .registerUser(email.text, password.text, context);
+                            .registerUser(context, email: email.text, password: password.text, firstName: firstName.text, lastName: lastName.text);
+                            
+
+                          
 
                         ///Todo: probably makr somthing to show that the app is registering
                       },
                       isPrimaryButton: true),
 
-                  SizedBox(
-                    height: relHeight(kDefaultPadding, context),
+                  const SizedBox(
+                    height: kDefaultPadding,
                   ),
 
                   ///Todo: Change to google logo
                   SicklerButton(
+                    isDoingWork: isDoingWork[1],
                       colour: kPurple80,
                       buttonLabel: "Sign In with Google",
                       onPressed: () async {
+                          setState(() {
+                              isDoingWork[1] = true;
+                            });
                         HapticFeedback.lightImpact();
                         Feedback.forTap(context);
                         FirebaseAuthService().signInWithGoogle(context);
@@ -171,14 +183,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ///Todo: probably makr somthing to show that the app is registering
                       },
                       isPrimaryButton: true),
-                  SizedBox(
-                    height: relHeight(kDefaultPadding, context),
+                  const SizedBox(
+                    height: kDefaultPadding,
                   ),
                   GestureDetector(
                     onTap: () {
                       HapticFeedback.lightImpact();
                       Feedback.forTap(context);
-                      Navigator.pushNamed(context, SicklerSignInScreen.id);
+                      Navigator.popAndPushNamed(context, SicklerSignInScreen.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(kDefaultPadding),
