@@ -1,4 +1,4 @@
-name: Run Lints, Tests, and Builds for Sickler
+name: Analyze, Tests, and Builds for Sickler
 on:
   pull_request:
     branches: ["main", "development"]
@@ -23,7 +23,7 @@ jobs:
 
 # Build the Android application and provide build artifacts
   build-android:
-    name: Build Application
+    name: Build Android Application
     runs-on: ubuntu-latest
 
     steps:
@@ -52,6 +52,7 @@ jobs:
 
 # Build the iOS application and provide build artifacts
   build-ios:
+    name: Build iOS Application
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -65,7 +66,7 @@ jobs:
 
 # Run tests on the project
   test:
-    name: Run basic unit tests
+    name: Run Basic Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -75,6 +76,6 @@ jobs:
           channel: 'stable'
 
       - run: flutter pub get
-      - run: flutter analyze
+      - run: flutter test
 
 
